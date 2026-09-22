@@ -7,11 +7,11 @@ r = redis.Redis(host='redis', port=6379, decode_responses=True)
 
 @app.route('/')
 def home():
-	return '<h1>Привет, Данил! Это твой первый веб-сервер в Докер!)</h1>'
+	return '<h1>Docker+Flask test)</h1>'
 
 @app.route('/about')
 def about():
-	return '<p>6767676767</p>'
+	return '<p>67</p>'
 
 @app.route('/db-check')
 def db_check():
@@ -26,7 +26,7 @@ def db_check():
 	version = cur.fetchone()
 	cur.close()
 	conn.close()
-	return f'<p>Подключение к базе успешно! Версия: {version[0]}</p>'
+	return f'<p>BD connected, version: {version[0]}</p>'
 
 @app.route('/counter')
 def counter():
