@@ -6,6 +6,7 @@ services:
     container_name: my-web
     depends_on:
       - db
+      - redis
 
   db:
     image: postgres:16
@@ -16,6 +17,9 @@ services:
       POSTGRES_DB: mydatabase
     volumes:
       - db-data:/var/lib/postgresql/data
+  redis:
+    image: redis:7
+    container_name: my-redis
 
 volumes:
   db-data:

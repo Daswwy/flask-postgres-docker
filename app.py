@@ -1,7 +1,9 @@
 from flask import Flask
 import psycopg2
+import redis
 
 app = Flask(__name__)
+r = redis.Redis(host='redis', port=6379, decode_responses=True)
 
 @app.route('/')
 def home():
@@ -25,5 +27,10 @@ def db_check():
 	cur.close()
 	conn.close()
 	return f'<p>Подключение к базе успешно! Версия: {version[0]}</p>'
+
+@app.route('/counter')
+def counter():
+	count = r.incr('visits')
+	return f'<p> This page was opened {count} time(s)</p>'
 
 app.run(host='0.0.0.0', port=5000)
