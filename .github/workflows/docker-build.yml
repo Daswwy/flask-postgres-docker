@@ -12,4 +12,5 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Build Docker image
-        run:  docker build -t flask-app-web
+        run: docker build -t flask-app-web .
+
