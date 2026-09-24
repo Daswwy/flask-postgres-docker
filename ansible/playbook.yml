@@ -1,0 +1,14 @@
+---
+- name: 1st playbook
+  hosts: local
+  tasks:
+    - name: Create test directory
+      file:
+        path: /home/danyl/ansible-test
+        state: directory
+
+    - name: Create test file inside
+      copy:
+        content: "!Ansible test test Ansible!\n"
+        dest: /home/danyl/ansible-test/hello.txt
+
