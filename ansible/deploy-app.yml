@@ -1,0 +1,19 @@
+---
+- name: Flask-app set up
+  hosts: local
+  become: yes
+  vars:
+    project_dir: /home/danyl/flask-app
+
+  tasks:
+    - name: Install Docker compose plugin (if not exist)
+      apt:
+        name: docker-compose-plugin
+        state: present
+
+    - name: Start docker compose up
+      command: docker compose up -d --build
+      args:
+        chdir: "{{ project_dir }}"
+
+
