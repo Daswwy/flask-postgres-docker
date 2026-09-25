@@ -1,6 +1,6 @@
 ---
 - name: Docker install with Ansible
-  hosts: remote
+  hosts: servers
   become: yes
   tasks:
     - name: Install dependencies
