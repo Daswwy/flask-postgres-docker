@@ -1,0 +1,27 @@
+---
+- name: Deploy Flask app from GitHub
+  hosts: servers
+  become: yes
+  vars:
+    repo_url: https://github.com/Daswwy/flask-postgres-docker.git
+    project_dir: /opt/flask-app
+
+  tasks:
+    - name: Install git and docker compose plugin
+      apt:
+        name:
+          - git
+          - docker-compose-plugin
+        state: present
+        update_cache: yes
+
+    - name: Clone or update the repo
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ project_dir }}"
+        version: main
+
+    - name: Build and start containers
+      command: docker compose up -d --build
+      args:
+        chdir: "{{ project_dir }}"
