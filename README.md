@@ -1,4 +1,4 @@
-# Flask + PostgreSQL + Redis — Docker, Ansible, Azure
+# WIP Flask + PostgreSQL + Redis — Docker, Ansible, Azure
  
 A small web application used as a hands-on DevOps project: containerized with Docker Compose, built by a CI pipeline in GitHub Actions, and deployed with Ansible to a local VM and to a cloud VM in Microsoft Azure.
  
