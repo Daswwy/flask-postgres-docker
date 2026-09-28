@@ -11,9 +11,18 @@ provider "azurerm" {
   features {}
 }
 
+locals {
+  common_tags = {
+    project    = "flask-app"
+    managed_by = "terraform"
+  }
+}
+
+
 resource "azurerm_resource_group" "tf_lab" {
   name     = "rg-terraform-lab"
   location = "denmarkeast"
+  tags     = local.common_tags
 }
 
 resource "azurerm_virtual_network" "tf_lab" {
@@ -111,4 +120,7 @@ resource "azurerm_linux_virtual_machine" "tf_lab" {
     sku       = "server"
     version   = "latest"
   }
+  tags = local.common_tags
+
 }
+
