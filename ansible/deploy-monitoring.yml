@@ -13,10 +13,6 @@
         dest: "{{ project_dir }}"
         version: main
 
-    - name: Remove old full monitoring stack
-      command: docker compose down
-      args:
-        chdir: "{{ project_dir }}/monitoring"
     - name: Start node-exporter agent
       command: docker compose up -d
       args:
