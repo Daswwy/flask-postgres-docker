@@ -4,6 +4,7 @@ services:
     container_name: node-exporter
     restart: unless-stopped
     pid: host
+    uts: host
     command:
       - '--path.rootfs=/host'
     volumes:
