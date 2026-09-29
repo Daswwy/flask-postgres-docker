@@ -1,0 +1,23 @@
+---
+- name: Deploy monitoring stack
+  hosts: servers
+  become: yes
+  vars:
+    repo_url: https://github.com/Daswwy/flask-postgres-docker.git
+    project_dir: /opt/flask-app
+
+  tasks:
+    - name: Update the repo
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ project_dir }}"
+        version: main
+
+    - name: Remove old full monitoring stack
+      command: docker compose down
+      args:
+        chdir: "{{ project_dir }}/monitoring"
+    - name: Start node-exporter agent
+      command: docker compose up -d
+      args:
+        chdir: "{{ project_dir }}/monitoring/agent"
