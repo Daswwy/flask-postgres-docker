@@ -1,0 +1,40 @@
+---
+- name: Add swap file
+  hosts: azure
+  become: yes
+  vars:
+    swap_file: /swapfile
+    swap_size_mb: 2048
+
+  tasks:
+    - name: Check if swap file already exist
+      stat:
+        path: "{{ swap_file }}"
+      register:  swap_stat
+
+    - name: Check if swap is active
+      command: swapon --show=NAME --noheadings
+      register: swap_active
+      changed_when: false
+
+    - name: Create swap file
+      command: fallocate -l {{ swap_size_mb }}M {{ swap_file }}
+      when: not swap_stat.stat.exists
+
+    - name: Restrict permissions
+      file:
+        path: "{{ swap_file }}"
+        mode: "0600"
+
+    - name: Format as swap
+      command: mkswap {{ swap_file }}
+      when: swap_file not in swap_active.stdout
+
+    - name: Enable swap
+      command: swapon {{ swap_file }}
+      when: swap_file not in swap_active.stdout
+
+    - name: Enable swap after reboot
+      lineinfile:
+        path: /etc/fstab
+        line: "{{ swap_file }} none swap sw 0 0"
