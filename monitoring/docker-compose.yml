@@ -22,13 +22,17 @@ services:
       - prometheus_data:/prometheus
 
   grafana:
-    image: grafana/grafana:latest
-    container_name: grafana
-    restart: unless-stopped
+    image: grafana/grafana
     ports:
       - "3000:3000"
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
     volumes:
       - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/etc/grafana/dashboards:ro
+    restart: unless-stopped
 
 volumes:
   prometheus_data:
