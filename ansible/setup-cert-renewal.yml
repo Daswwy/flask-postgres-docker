@@ -1,0 +1,14 @@
+---
+- name: Schedule Let's Encrypt certificate renewal
+  hosts: azure
+  become: yes
+  tasks:
+    - name: Add daily renewal job to root crontab
+      cron:
+        name: "certbot renew"
+        minute: "15"
+        hour: "3"
+        job: >-
+          cd /opt/flask-app &&
+          docker compose run --rm certbot renew --quiet &&
+          docker compose exec -T nginx nginx -s reload

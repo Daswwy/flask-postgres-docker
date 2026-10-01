@@ -64,19 +64,8 @@ resource "azurerm_network_security_group" "tf_lab" {
   }
 
   security_rule {
-    name                       = "Flask"
-    priority                   = 310
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "5000"
-    source_address_prefix      = "${var.allowed_ip}/32"
-    destination_address_prefix = "*"
-  }
-  security_rule {
     name                       = "NodeExporter"
-    priority                   = "320"
+    priority                   = "310"
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
@@ -89,7 +78,7 @@ resource "azurerm_network_security_group" "tf_lab" {
   security_rule {
 
     name                        = "HTTP"
-    priority                    = "330"
+    priority                    = "320"
     direction                   = "Inbound"
     access                      = "Allow"
     protocol                    = "Tcp"
@@ -103,7 +92,7 @@ resource "azurerm_network_security_group" "tf_lab" {
   security_rule {
 
     name                        = "HTTPS"
-    priority                    = "340"
+    priority                    = "330"
     direction                   = "Inbound"
     access                      = "Allow"
     protocol                    = "Tcp"
