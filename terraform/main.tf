@@ -86,6 +86,35 @@ resource "azurerm_network_security_group" "tf_lab" {
     destination_address_prefix = "*"
   }
 
+  security_rule {
+
+    name                        = "HTTP"
+    priority                    = "330"
+    direction                   = "Inbound"
+    access                      = "Allow"
+    protocol                    = "Tcp"
+    source_port_range           = "*"
+    destination_port_range      = "80"
+    source_address_prefix       = "Internet"
+    destination_address_prefix = "*"
+  }
+
+
+  security_rule {
+
+    name                        = "HTTPS"
+    priority                    = "340"
+    direction                   = "Inbound"
+    access                      = "Allow"
+    protocol                    = "Tcp"
+    source_port_range           = "*"
+    destination_port_range      = "443"
+    source_address_prefix       = "Internet"
+    destination_address_prefix = "*"
+  }
+
+
+
 }
 
 resource "azurerm_subnet_network_security_group_association" "tf_lab" {
@@ -99,6 +128,7 @@ resource "azurerm_public_ip" "tf_lab" {
   resource_group_name = azurerm_resource_group.tf_lab.name
   allocation_method   = "Static"
   sku                 = "Standard"
+  domain_name_label   = "flask-daswwy"
 }
 
 resource "azurerm_network_interface" "tf_lab" {

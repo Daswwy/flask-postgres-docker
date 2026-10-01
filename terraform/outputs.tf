@@ -5,3 +5,7 @@ output "public_ip" {
 output "ssh_command" {
   value = "ssh azureuser@${azurerm_public_ip.tf_lab.ip_address}"
 }
+
+output "fqdn" {
+  value = azurerm_public_ip.tf_lab.fqdn
+}
