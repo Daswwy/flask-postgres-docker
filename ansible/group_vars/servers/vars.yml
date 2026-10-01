@@ -1,0 +1,3 @@
+postgres_user: myuser
+postgres_db: mydatabase
+postgres_password: "{{ vault_postgres_password }}"

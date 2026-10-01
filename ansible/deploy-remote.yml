@@ -21,6 +21,16 @@
         dest: "{{ project_dir }}"
         version: main
 
+    - name: Create .env with database credentials
+      copy:
+        dest: "{{ project_dir }}/.env"
+        content: |
+          POSTGRES_USER= {{ postgres_user }}
+          POSTGRES_DB= {{ postgres_db }}
+          POSTGRES_PASSWORD= {{ postgres_password }}
+        mode: "0600"
+        no_log: true
+
     - name: Build and start containers
       command: docker compose up -d --build
       args:

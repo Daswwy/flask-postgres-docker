@@ -17,6 +17,8 @@ services:
   web:
     build: .
     container_name: my-web
+    env_file:
+      - .env
     depends_on:
       - db
       - redis
@@ -26,10 +28,8 @@ services:
   db:
     image: postgres:16
     container_name: my-db
-    environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydatabase
+    env_file:
+      - .env
     volumes:
       - db-data:/var/lib/postgresql/data
     restart: unless-stopped

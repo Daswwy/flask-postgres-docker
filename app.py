@@ -1,3 +1,4 @@
+import os	
 from flask import Flask
 import psycopg2
 import redis
@@ -16,10 +17,10 @@ def about():
 @app.route('/db-check')
 def db_check():
 	conn = psycopg2.connect(
-		host='db',
-		database='mydatabase',
-		user='myuser',
-		password='mypassword'
+		host=os.environ.get('POSTGRES_HOST','db'),
+		database=os.environ['POSTGRES_DB'],
+		user=os.environ['POSTGRES_USER'],
+		password=os.environ['POSTGRES_PASSWORD']
 	)
 	cur = conn.cursor()
 	cur.execute('SELECT version();')
