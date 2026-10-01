@@ -16,8 +16,6 @@ services:
 
   web:
     build: .
-    ports:
-      - "5000:5000"
     container_name: my-web
     depends_on:
       - db
