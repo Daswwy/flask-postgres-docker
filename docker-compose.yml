@@ -41,6 +41,16 @@ services:
     container_name: my-redis
     restart: unless-stopped
 
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - certbot-www:/var/www/certbot
+      - certbot-certs:/etc/letsencrypt
+    profiles:
+      - tools
+
+
+
 
 volumes:
   db-data:
