@@ -46,7 +46,7 @@ flowchart LR
     AN -.->|git clone| GH
 ```
 
-**Workflow:** `terraform apply` creates the cloud infrastructure → Ansible installs Docker and deploys the stack → Certbot obtains a certificate → the site is served at `https://<label>.denmarkeast.cloudapp.azure.com`. The controller VM collects metrics from all hosts and sends alerts to Telegram.
+**Workflow:** `terraform apply` creates the cloud infrastructure → Ansible installs Docker and deploys the stack → Certbot obtains a certificate → the site is served at `flask-daswwy.denmarkeast.cloudapp.azure.com`. The controller VM collects metrics from all hosts and sends alerts to Telegram.
 
 ## Project structure
 
