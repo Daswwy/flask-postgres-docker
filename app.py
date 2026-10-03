@@ -34,4 +34,5 @@ def counter():
 	count = r.incr('visits')
 	return f'<p> This page was opened {count} time(s)</p>'
 
-app.run(host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
