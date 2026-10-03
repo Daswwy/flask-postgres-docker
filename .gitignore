@@ -21,3 +21,6 @@ venv/
 tfplan
 terraform.tfvars
 
+#Nginx
+
+nginx/.htpasswd

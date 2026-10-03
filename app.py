@@ -1,9 +1,52 @@
+import time
+from flask import request, Response
+from prometheus_client import (Counter, Histogram, CollectorRegistry,
+                               multiprocess, generate_latest, CONTENT_TYPE_LATEST)
 import os	
 from flask import Flask
 import psycopg2
 import redis
 
 app = Flask(__name__)
+
+REQUESTS = Counter('http_requests_total', 'Total HTTP requests',
+                   ['method', 'endpoint', 'status'])
+LATENCY = Histogram('http_request_duration_seconds', 'Request latency',
+                    ['endpoint'])
+
+@app.before_request
+def start_timer():
+    request.start_time = time.time()
+
+@app.after_request
+def record_metrics(response):
+    if request.path != '/metrics':
+        endpoint = request.url_rule.rule if request.url_rule else 'unknown'
+        LATENCY.labels(endpoint).observe(time.time() - request.start_time)
+        REQUESTS.labels(request.method, endpoint, response.status_code).inc()
+    return response
+
+@app.route('/metrics')
+def metrics():
+    registry = CollectorRegistry()
+    multiprocess.MultiProcessCollector(registry)
+    return Response(generate_latest(registry), mimetype=CONTENT_TYPE_LATEST)
+
+@app.route('/health')
+def health():
+    try:
+        conn = psycopg2.connect(host=os.environ.get('POSTGRES_HOST', 'db'),
+                                database=os.environ['POSTGRES_DB'],
+                                user=os.environ['POSTGRES_USER'],
+                                password=os.environ['POSTGRES_PASSWORD'],
+                                connect_timeout=2)
+        conn.close()
+        r.ping()
+        return {'status': 'ok'}, 200
+    except Exception as e:
+        return {'status': 'error', 'detail': str(e)}, 503
+
+
 r = redis.Redis(host='redis', port=6379, decode_responses=True)
 
 @app.route('/')

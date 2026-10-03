@@ -31,6 +31,14 @@
         mode: "0600"
       no_log: true
 
+    - name: Create htpasswd for /metrics
+      copy:
+        dest: "{{ project_dir }}/nginx/.htpasswd"
+        content: "prometheus:{{ vault_metrics_password | password_hash('sha512', 'flaskmetrics') }}\n"
+        mode: "0644"
+      no_log: true
+
+
     - name: Build and start containers
       command: docker compose up -d --build
       args:
