@@ -20,6 +20,7 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus_data:/prometheus
+      - ./metrics_password:/etc/prometheus/metrics_password:ro
 
   grafana:
     image: grafana/grafana

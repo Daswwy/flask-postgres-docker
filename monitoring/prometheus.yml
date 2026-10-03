@@ -5,7 +5,13 @@ scrape_configs:
   - job_name: prometheus
     static_configs:
       - targets: ['localhost:9090']
-
+  - job_name: flask-app
+    scheme: https
+    basic_auth:
+      username: prometheus
+      password_file: /etc/prometheus/metrics_password
+    static_configs:
+      - targets: ['flask-daswwy.denmarkeast.cloudapp.azure.com']
 
   - job_name: node
     static_configs:

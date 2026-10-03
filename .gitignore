@@ -24,3 +24,6 @@ terraform.tfvars
 #Nginx
 
 nginx/.htpasswd
+monitoring/metrics_password
+monitoring/metrics_password
+monitoring/metrics_password
