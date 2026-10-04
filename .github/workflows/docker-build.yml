@@ -24,7 +24,7 @@ jobs:
           cd /opt/flask-app
           sudo git pull --ff-only
           sudo docker compose up -d --build
-     - name: Smoke test
-       run: |
-        sleep 20
-        curl -fsS https://flask-daswwy.denmarkeast.cloudapp.azure.com/health
+      - name: Smoke test
+        run: |
+         sleep 20
+         curl -fsS https://flask-daswwy.denmarkeast.cloudapp.azure.com/health
