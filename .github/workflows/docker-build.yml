@@ -14,3 +14,17 @@ jobs:
       - name: Build Docker image
         run: docker build -t flask-app-web .
 
+  deploy:
+    needs: build
+    runs-on: [self-hosted, azure]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Pull and restart
+        run: |
+          cd /opt/flask-app
+          sudo git pull --ff-only
+          sudo docker compose up -d --build
+     - name: Smoke test
+       run: |
+        sleep 20
+        curl -fsS https://flask-daswwy.denmarkeast.cloudapp.azure.com/health
